@@ -1,6 +1,6 @@
 import streamlit as st
 from utils.io import load_weather
-from charts.charts import chart_dashboard
+from charts.charts import (chart_dashboard, chart_dashboard2)
 
 st.set_page_config(page_title="Explore", layout="wide")
 df = load_weather()
@@ -14,3 +14,6 @@ st.markdown("**Guided prompts:**")
 st.write("- Filter to one weather type (e.g., `sun`, `rain`)—does the temperature distribution shift?")
 st.write("- Brush a specific year—do extremes cluster in particular periods?")
 st.write("- Compare histogram shape across weather types—what changes most: center, spread, or tails?")
+
+st.write('Zoom to see the relationship between precipitation and max temp, then select to see specific relationship filtered by weather type')
+st.altair_chart(chart_dashboard2(df), use_container_width=True)

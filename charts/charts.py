@@ -107,3 +107,49 @@ def chart_dashboard(df: pd.DataFrame) -> alt.Chart:
     )
 
     return alt.vconcat(line, hist).resolve_scale(color="independent")
+
+def chart_surprise_extremes_cold(df: pd.DataFrame) -> alt.Chart:
+    q = float(df["temp_min"].quantile(0.01))
+    df2 = df.copy()
+    df2["extreme"] = df2["temp_min"] <= q
+
+    base = (
+        alt.Chart(df2)
+        .mark_point(filled=True, size=35)
+        .encode(
+            x=alt.X("date:T", title="Date"),
+            y=alt.Y("temp_min:Q", title="Daily min temp (°C)"),
+            color=alt.condition("datum.extreme", alt.value("blue"), alt.value("lightgray")),
+            tooltip=[alt.Tooltip("date:T"), alt.Tooltip("temp_min:Q", format=".1f")],
+        )
+        .properties(height=320)
+    )
+
+    rule = alt.Chart(pd.DataFrame({"q": [q]})).mark_rule(strokeDash=[6, 4]).encode(y="q:Q")
+    return base + rule
+
+def chart_dashboard2(df:pd.DataFrame) -> alt.Chart:
+    zoom=alt.selection_interval(bind='scales')
+    weather_types = sorted(df["weather"].unique())
+
+    w_select= alt.selection_point(
+        fields=["weather"],
+        bind=alt.binding_select(options=weather_types, name="Weather: "),
+    )
+    base=alt.Chart(df).mark_circle().encode(
+        x=alt.X('temp_max:Q', title='Daily Max Temp (°C)'),
+        y=alt.Y('precipitation:Q', title='Precipitation'),
+        color=alt.Color('weather:N', title='Weather Type')
+    ).add_selection(zoom).properties(
+        height=320,
+        title='Precipitation vs Maximum Temperature'
+    )
+
+    second=alt.Chart(df).transform(w_select).mark_circle().encode(
+                                       x=alt.X('temp_max:Q', title='Daily Max Temp (°C)'),
+                                       y=alt.Y('precipitation:Q', title='Precipitation'),
+                                       tooltip=[alt.Tooltip('date:T', title='Date'),
+                                                alt.Tooltip('temp_max:Q', title='Daily Max Temp (°C)'),
+                                                alt.Tooltip('precipitation:Q', title='Precipitation')]
+                                                ).properties(height= 320,title="Selected weather")
+    return base + second

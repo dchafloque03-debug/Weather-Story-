@@ -7,6 +7,7 @@ from charts.charts import (
     chart_context_seasonality,
     chart_surprise_extremes,
     chart_explain_precip_vs_temp,
+    chart_surprise_extremes_cold
 )
 
 st.set_page_config(page_title="Story", layout="wide")
@@ -38,3 +39,7 @@ st.header("4) Precipitation vs temperature")
 st.write("We wish to test a plausible explanation: are the warmest days also the driest (or not)?")
 st.altair_chart(chart_explain_precip_vs_temp(df), use_container_width=True)
 st.caption("Takeaway: The relationship is noisy — precipitation alone does not explain extreme heat, motivating more fine-grained exploration.")
+
+st.header("5) Surprise: Extremely cold days")
+st.write("Here we highlight rare events of extreme cold, not just the average, defined by temperatures in the 1 percentile.")
+st.altair_chart(chart_surprise_extremes_cold)
