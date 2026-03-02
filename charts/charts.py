@@ -130,12 +130,12 @@ def chart_surprise_extremes_cold(df: pd.DataFrame) -> alt.Chart:
 
 def chart_dashboard2(df:pd.DataFrame) -> alt.Chart:
     zoom=alt.selection_interval(bind='scales')
-    
-    weather_types = sorted(df["weather"].unique())
 
-    w_select= alt.selection_point(
-        fields=["weather"],
-        bind=alt.binding_select(options=weather_types, name="Weather: "), empty='all')
+   # weather_types = sorted(df["weather"].unique())
+
+    #w_select= alt.selection_point(
+        #fields=["weather"],
+        #bind=alt.binding_select(options=weather_types, name="Weather: "), empty='all')
     
     base=alt.Chart(df).mark_circle().encode(
         x=alt.X('temp_max:Q', title='Daily Max Temp (°C)'),
@@ -146,11 +146,11 @@ def chart_dashboard2(df:pd.DataFrame) -> alt.Chart:
         title='Precipitation vs Maximum Temperature'
     )
 
-    second=alt.Chart(df).transform_filter(w_select).mark_circle().encode(
-                                       x=alt.X('temp_max:Q', title='Daily Max Temp (°C)'),
-                                       y=alt.Y('precipitation:Q', title='Precipitation'),
-                                       tooltip=[alt.Tooltip('date:T', title='Date'),
-                                                alt.Tooltip('temp_max:Q', title='Daily Max Temp (°C)'),
-                                                alt.Tooltip('precipitation:Q', title='Precipitation')]
-                                                ).properties(height= 320,title="Selected weather")
-    return alt.vconcat(base, second)
+    #second=alt.Chart(df).transform_filter(w_select).mark_circle().encode(
+                                       #x=alt.X('temp_max:Q', title='Daily Max Temp (°C)'),
+                                       #y=alt.Y('precipitation:Q', title='Precipitation'),
+                                       #tooltip=[alt.Tooltip('date:T', title='Date'),
+                                                #alt.Tooltip('temp_max:Q', title='Daily Max Temp (°C)'),
+                                                #alt.Tooltip('precipitation:Q', title='Precipitation')]
+                                                #).properties(height= 320,title="Selected weather")
+    return base #alt.vconcat(base, second)
