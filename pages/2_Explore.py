@@ -15,5 +15,6 @@ st.write("- Filter to one weather type (e.g., `sun`, `rain`)—does the temperat
 st.write("- Brush a specific year—do extremes cluster in particular periods?")
 st.write("- Compare histogram shape across weather types—what changes most: center, spread, or tails?")
 
-st.write('Zoom to see the relationship between precipitation and max temp, then select to see specific relationship filtered by weather type')
+st.markdown ("*My added visualization*")
+st.write('Zoom to see the relationship between precipitation and max temp.')
 st.altair_chart(chart_dashboard2(df), use_container_width=True)
