@@ -42,4 +42,4 @@ st.caption("Takeaway: The relationship is noisy — precipitation alone does not
 
 st.header("5) Surprise: Extremely cold days")
 st.write("Here we highlight rare events of extreme cold, not just the average, defined by temperatures in the 1 percentile.")
-st.altair_chart(chart_surprise_extremes_cold)
+st.altair_chart(chart_surprise_extremes_cold(df), use_container_width=True)

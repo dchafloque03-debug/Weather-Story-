@@ -145,7 +145,7 @@ def chart_dashboard2(df:pd.DataFrame) -> alt.Chart:
         title='Precipitation vs Maximum Temperature'
     )
 
-    second=alt.Chart(df).transform(w_select).mark_circle().encode(
+    second=alt.Chart(df).transform_filter(w_select).mark_circle().encode(
                                        x=alt.X('temp_max:Q', title='Daily Max Temp (°C)'),
                                        y=alt.Y('precipitation:Q', title='Precipitation'),
                                        tooltip=[alt.Tooltip('date:T', title='Date'),
