@@ -134,7 +134,7 @@ def chart_dashboard2(df:pd.DataFrame) -> alt.Chart:
 
     w_select= alt.selection_point(
         fields=["weather"],
-        bind=alt.binding_select(options=weather_types, name="Weather: "),
+        bind=alt.binding_select(options=weather_types, name="Weather: ", empty='all'),
     )
     base=alt.Chart(df).mark_circle().encode(
         x=alt.X('temp_max:Q', title='Daily Max Temp (°C)'),
@@ -152,4 +152,4 @@ def chart_dashboard2(df:pd.DataFrame) -> alt.Chart:
                                                 alt.Tooltip('temp_max:Q', title='Daily Max Temp (°C)'),
                                                 alt.Tooltip('precipitation:Q', title='Precipitation')]
                                                 ).properties(height= 320,title="Selected weather")
-    return base + second
+    return alt.vconcat(base, second)
